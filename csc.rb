@@ -9,6 +9,7 @@ class CommentSpellCheck
 
   # For an explanation of the regex algorithm visit http://stackoverflow.com/a/8947861/178805
   @@comment_regex    = /\/\*\*([\w\d\W\D]+?)\*\//
+  @@ignored_words    = ['struct', 'iOS', 'rect', 'param']
 
   def self.misspelledWords(string, path, indent = '')
   	newline = "\n"
@@ -23,9 +24,19 @@ class CommentSpellCheck
   		for line in comment
   			for word in line.split(' ')
   				word.gsub!(/([\W\d]+)/, '')
-  				
-	  		    if !SP.check(word) && word.ascii_only?
-				  wrongWords << "In #{filename}: |#{word}|#{newline}"
+
+  				# if hasObjective_CNamePrefix(word)
+  				# 	continue
+  				# end
+
+  				@@ignored_words.each { |ignoreMe| 
+  					if word == ignoreMe
+  						word = ''
+  					end
+  				}
+
+	  		    if !SP.check(word and word.ascii_only? and !hasObjective_CNamePrefix(word) and word != ''
+				  wrongWords << "In #{filename}: #{word}" + newline
 				  wrongWords << newline
 		  	    end
 		  	end
@@ -33,6 +44,20 @@ class CommentSpellCheck
   	}
   	
 	return wrongWords
+  end
+
+  def self.hasObjective_CNamePrefix string
+  	capsCount = 0
+  	for letter in string.each_char
+  		if letter.upcase == letter
+  			capsCount += 1
+  			if capsCount > 2
+  				return true
+  			end
+  		else
+  			return false
+  		end
+  	end
   end
 
   # Given a directory, it will scan it for all .h files and spell check comments 
