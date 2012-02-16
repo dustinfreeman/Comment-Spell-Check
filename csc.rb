@@ -39,7 +39,7 @@ class CommentSpellCheck
 				if hasInnerCapital(word)
 					#add to list of probably safely ignored
 					#add the filename to the warned word indenting it first
-					probablySpeltRight << "\e[31m" + word + "\e[0m" + "\t in #{filename}"
+					probablySpeltRight << "\e[33m" + word + "\e[0m" + "\t in #{filename}"
 					next
 				end
 
@@ -48,7 +48,7 @@ class CommentSpellCheck
 				# namespace prefixed construct, and not equal to the empty string
 	  		    if isValidWord(word) #switch this to `word.isValidWord?`
 	  		    	#add the filename to the misspelled word indenting it first
-  		    		wrongWords << "\e[33m" + word + "\e[0m" + "\t in #{filename}"
+  		    		wrongWords << "\e[31m" + word + "\e[0m" + "\t in #{filename}"
 		  	    end
 		  	end
   		end

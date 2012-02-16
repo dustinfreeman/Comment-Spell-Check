@@ -20,9 +20,9 @@ You need to have installed the 'raspell' gem and also to have installed 'aspell'
 
 Run `ruby csc.rb $PATH_TO_DIRECTORY_OF_HEADER_FILES` and get Terminal output of errors and warnings. 
 
-Errors are strings Aspell thinks are misspelled. For example with the dictionaries I have installed Aspell thinks 'resizing' is incorrect. 
+Errors are strings Aspell thinks are misspelled. For example with the dictionaries I have installed Aspell thinks 'resizing' is incorrect. Errors are shown in red.
 
-Warnings are what Aspell thinks are wrong but Comment Spell Check knows probably are not wrong. For example anything starting with camel case capitalization is put in the warnings list instead of errors.
+Warnings are what Aspell thinks are wrong but Comment Spell Check knows probably are not wrong. For example anything starting with camel case capitalization is put in the warnings list instead of errors. Warnings are shown in yellow.
 
 # What's Next
 
