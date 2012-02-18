@@ -34,7 +34,9 @@ class CommentSpellCheck
   					end
   				}
 
+        
         first_suggestion = SP.suggest(word)[0]
+        second_suggestion = SP.suggest(word)[1]
 
 
   				#a camel case word is probably okay to ignore
@@ -44,7 +46,7 @@ class CommentSpellCheck
 					#add the filename to the warned word indenting it first
 					item = "\e[33m" + word + "\e[0m" + "\t in #{filename}"
           if first_suggestion != nil
-            item += "\n did you mean \e[32m#{first_suggestion}\e[0m?"
+            item += "\n did you mean \e[32m#{first_suggestion}\e[0m or \e[32m#{second_suggestion}\e[0m?"
           end
 
           probablySpeltRight << item
@@ -60,7 +62,7 @@ class CommentSpellCheck
 	  		    	#add the filename to the misspelled word indenting it first
               item = "\e[31m" + word + "\e[0m" + "\t in #{filename}" 
               if first_suggestion != nil
-                item += "\n did you mean \e[35m#{first_suggestion}\e[0m?"
+                item += "\n did you mean \e[35m#{first_suggestion}\e[0m or \e[35m#{second_suggestion}\e[0m?"
               end
 
   		    		wrongWords << item
