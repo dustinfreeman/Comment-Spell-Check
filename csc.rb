@@ -34,21 +34,36 @@ class CommentSpellCheck
   					end
   				}
 
+        first_suggestion = SP.suggest(word)[0]
+
+
   				#a camel case word is probably okay to ignore
   				# being a variable or other programming construct
 				if hasInnerCapital(word)
 					#add to list of probably safely ignored
 					#add the filename to the warned word indenting it first
-					probablySpeltRight << "\e[33m" + word + "\e[0m" + "\t in #{filename}"
+					item = "\e[33m" + word + "\e[0m" + "\t in #{filename}"
+          if first_suggestion != nil
+            item += "\n did you mean \e[32m#{first_suggestion}\e[0m?"
+          end
+
+          probablySpeltRight << item
+
 					next
 				end
+
 
 				#check if this word is: spelled wrong, ascii characters only, 
 				# not a word with >2 capitals in a row signifying an Objective-C
 				# namespace prefixed construct, and not equal to the empty string
 	  		    if isValidWord(word) #switch this to `word.isValidWord?`
 	  		    	#add the filename to the misspelled word indenting it first
-  		    		wrongWords << "\e[31m" + word + "\e[0m" + "\t in #{filename}"
+              item = "\e[31m" + word + "\e[0m" + "\t in #{filename}" 
+              if first_suggestion != nil
+                item += "\n did you mean \e[35m#{first_suggestion}\e[0m?"
+              end
+
+  		    		wrongWords << item
 		  	    end
 		  	end
   		end
@@ -130,19 +145,19 @@ class CommentSpellCheck
 	    errors.each {|error|
 	    	puts error
 	    }
-	else 
-		puts "\e[1mNo errors! :D\e[0m"
-	end
+	  else 
+		  puts "\e[1mNo errors! :D\e[0m"
+	  end
 
-	if potentialErrors.count > 0
-	    #color Warnings yellow, print each warning
-	    puts "\e[1mSpelling Warnings:\e[0m"
-	    potentialErrors.each {|perror|
-		    puts perror
-		}
-	else
-		puts "\e[1mNo warnings! :D\e[0m"
-	end
+  	if potentialErrors.count > 0
+  	    #color Warnings yellow, print each warning
+  	    puts "\e[1m\nSpelling Warnings:\e[0m"
+  	    potentialErrors.each {|perror|
+  		    puts perror
+  		}
+  	else
+  		puts "\e[1m\nNo warnings! :D\e[0m"
+  	end
   end
 end
 
