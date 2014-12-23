@@ -1,6 +1,6 @@
 # About
 
-Comment Spell Check is a Ruby script to recursively scan a directory and spell check every Objective-C header file found therein.
+Comment Spell Check is a Ruby script to recursively scan a directory and spell check every .h, .m and .swift file found therein.
 
 ## Special Thanks To
 
@@ -11,25 +11,26 @@ Comment Spell Check is a Ruby script to recursively scan a directory and spell c
 
 # Install
 
-You need to have installed the 'raspell' gem and also to have installed 'aspell'. 
+You need to have installed the `raspell` gem (listed in Gemfile) and also to have executable 'aspell'. 
 
 		brew install aspell
-		gem install raspell
+		bundle install
 
 # Use
 
-Run `ruby csc.rb $PATH_TO_DIRECTORY_OF_HEADER_FILES` and get Terminal output of errors and warnings. 
+Run `ruby csc.rb $PATH_TO_DIRECTORY_OF_HEADER_FILES` and get Terminal output of errors and warnings. You can add a second parameter path to a file which contains newline separated words to ignore spell checking. Without a parameter the current directory is used along with a short default list of ignorable words.
 
 Errors are strings Aspell thinks are misspelled. For example with the dictionaries I have installed Aspell thinks 'resizing' is incorrect. Errors are shown in red.
 
-Warnings are what Aspell thinks are wrong but Comment Spell Check knows probably are not wrong. For example anything starting with camel case capitalization is put in the warnings list instead of errors. Warnings are shown in yellow.
+Warnings are what Aspell thinks are wrong but Comment Spell Check knows may not be wrong. For example anything starting with camel case capitalization is put in the warnings list instead of errors. Warnings are shown in yellow.
 
-# What's Next
+Suggestions are listed after each error/warning: “Did you mean…?”
 
-Clearer results, more power, and more options:
+# Issues
 
-1. Parameter to ignore words (stdin or file path flag?)
-2. Suggestions of how X should be spelled
+- Does not work with `#` comments.
+- Hard-coded on .h, .m and .swift file extensions.
+- Auto runs in current directory: prevents importing into other Ruby code bases.
 
 # License
 
